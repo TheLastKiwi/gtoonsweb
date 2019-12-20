@@ -1,7 +1,9 @@
 import React from 'react';
-import Card from "./Components/Card"
 import DisplayCard from "./Components/DisplayCard"
+import Hand from "./Components/Hand"
 import axios from 'axios';
+import { Column, Row } from 'simple-flexbox';
+import Board from './Components/Board';
 
 class App extends React.Component {
   constructor(props){
@@ -21,23 +23,32 @@ class App extends React.Component {
     
   render(){
     console.log("app render " + this.state.hoveredCard.name);
+
+    
+
     return (
-      <>
-        <DisplayCard hoveredCard={this.state.hoveredCard}/>
-        <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
+    <>
+      
+      <DisplayCard hoveredCard={this.state.hoveredCard}/>
+      <Board />
+      <Hand />
+
       </>
     )
   };
 
   mouseEnter(card){
+    if(card.description == null) return;
     this.setState({hoveredCard: {src: card.src, color: "blue", description:"gets big", name:"skullguy"}})
     console.log("hovered: " + this.state.hoveredCard + " - " + card.src)
   }
 
   cardDrag(card){
+    if(card.description == null) return;
     
   }
   cardDragEnd(card){
+    if(card.description == null) return;
     let info;
     console.log("cardDragEnd")
     axios.post("localhost:8888/register","").then(function(response){
