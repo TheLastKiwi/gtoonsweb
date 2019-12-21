@@ -29,29 +29,28 @@ class Board extends React.Component{
 
             <>
                 <Row style = {offsetLeftStyle}>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
                 </Row>
                 <Row>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
                 </Row>
                 <button>No</button><button>Ready</button><button>Yes</button>
                 <Row>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
                 </Row>
-                <Row  style = {offsetLeftStyle}>>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
-                    <Card onMouseEnter = {this.mouseEnter} onDragStart = {this.cardDrag} onDragEnd = {this.cardDragEnd}/>
+                <Row  style = {offsetLeftStyle}>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.cardDragEnd}/>
                 </Row>
-
             </>
         )
     }
