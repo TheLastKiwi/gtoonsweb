@@ -15,16 +15,16 @@ class Hand extends React.Component{
         <>
             <Column style = {handStyle}>
                 <Row>
-                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.onDrag} onDragEnd = {this.onDragEnd}/>
-                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.onDrag} onDragEnd = {this.onDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDrag} onDragEnd = {this.props.onDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDrag} onDragEnd = {this.props.onDragEnd}/>
                 </Row>
                 <Row>
-                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.onDrag} onDragEnd = {this.onDragEnd}/>
-                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.onDrag} onDragEnd = {this.onDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDrag} onDragEnd = {this.props.onDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDrag} onDragEnd = {this.props.onDragEnd}/>
                 </Row>
                 <Row>
-                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.onDrag} onDragEnd = {this.onDragEnd}/>
-                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.onDrag} onDragEnd = {this.onDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDrag} onDragEnd = {this.props.onDragEnd}/>
+                    <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDrag} onDragEnd = {this.props.onDragEnd}/>
                 </Row>
             </Column>
         </>

@@ -27,7 +27,7 @@ class Card extends React.Component{
         console.log("Card render " + this.state.src)
         return(
             <div>
-                <img src = {this.state.src} onMouseEnter = {()=>(this.props.onMouseEnter(this.state))} onDragEnd = {()=>(this.props.onDragEnd(this.state))}></img>
+                <img src = {this.state.src} onMouseEnter = {()=>(this.props.onMouseEnter(this.state))} onDragStart = {()=>(this.props.onDragStart(this.state))} onDragEnd = {()=>(this.props.onDragEnd(this.state))}></img>
             </div>
         )
     }
