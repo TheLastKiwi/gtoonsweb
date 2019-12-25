@@ -8,7 +8,6 @@ class DisplayCard extends React.Component{
         
     }
     render (){
-        console.log("DisplayCard render:" + this.props.hoveredCard.src)
         return(
             <div>
                 <img src = {this.props.hoveredCard.src}></img><br/>

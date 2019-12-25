@@ -6,31 +6,48 @@ class Card extends React.Component{
         console.log("Card constructor")
         super(props)
         this.state = {
-            name: this.props.name,
-            rarity: this.props.rarity,
-            character: this.props.character,
-            description: this.props.description,
-            effects: this.props.effects,
-            attributes: this.props.attributes,
-            unappliedEffects: this.props.unappliedEffects,
-            location: this.props.location,
-            color: this.props.color,
-            points: this.props.points,
-            nullified: this.props.nullified, //if nullified by another card of same name or character of lower value
-            owner: this.props.owner, //boolean if you own it
-            bonusPoints: this.props.bonusPoints,
-            src: "https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png" //eventually it will be "./images/small/" + name +".png" 
+            id: this.props.cardInfo.id,
+            // name: this.props.cardInfo.name,
+            // rarity: this.props.cardInfo.rarity,
+            // character: this.props.cardInfo.character,
+            // description: this.props.cardInfo.description,
+            // effects: this.props.cardInfo.effects,
+            // attributes: this.props.cardInfo.attributes,
+            // unappliedEffects: this.props.cardInfo.unappliedEffects,
+            // location: this.props.cardInfo.location,
+            // color: this.props.cardInfo.color,
+            // points: this.props.cardInfo.points,
+            // nullified: this.props.cardInfo.nullified, //if nullified by another card of same name or character of lower value
+            // owner: this.props.cardInfo.owner, //boolean if you own it
+            // bonusPoints: this.props.cardInfo.bonusPoints,
+            src: this.props.cardInfo.src //"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png" //eventually it will be "./images/small/" + name +".png" 
+        }
+        this.cardStyle = {
+            float: "left", 
+            width: "125px", 
+            height: "125px",
+            border: "1px solid #aaaaaa"
         }
     }
-    
+    componentWillReceiveProps = (nextProps) =>{
+        // debugger;
+        console.log("updRec")
+        if( this.state.id === nextProps.cardInfo.id) return;
+        console.log("gotUpdates here are the props")
+        console.log(nextProps)
+        this.setState({ ...nextProps.cardInfo });  
+    }
     render (){
-        console.log("Card render " + this.state.src)
         return(
-            <div>
-                <img src = {this.state.src} onMouseEnter = {()=>(this.props.onMouseEnter(this.state))} onDragStart = {()=>(this.props.onDragStart(this.state))} onDragEnd = {()=>(this.props.onDragEnd(this.state))}></img>
+            <div >
+                <img style={this.cardStyle} src = {this.state.src} onMouseEnter = {()=>(this.props.onMouseEnter(this.state))} onDragStart = {()=>(this.props.onDragStart(this.props.index))}
+                onDragEnd = {()=>(this.props.onDragEnd(this.state))} onDrop = {(event)=>this.props.onDrop(event,this.props.index)}
+                 onDragOver = {(event)=>this.props.onDragOver(event,this.props.index)}
+                draggable={this.state.id === -1?false:this.props.draggable}></img>
             </div>
         )
     }
+    
 
 }
 export default Card;
