@@ -34,15 +34,20 @@ class Game extends React.Component{
                 {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/33.png"}
             ],
             oppCardInfo:[
-                {id:1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:2, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:31, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:41, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:51, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:61, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:71, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"}
+                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
+                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
+                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
+                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
+                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
+                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
+                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"}
             ],
-            draggingCard: null
+            draggingCard: null,
+            gameSizeStyle : {
+                width: "1125px", 
+                height: "825px",
+                border: "1px solid #aaaaaa"
+            }
         }
 
          /*
@@ -98,104 +103,82 @@ class Game extends React.Component{
         //   }
         // })
         this.setState({draggingCard:null});
-        //this.state.draggingCard = null;
       }
       onDrop = (event, card)=> {
-        // console.log("onDrop")
-        // console.log("dropTarget - ");
-        // console.log(card);
-        // console.log("draggedCard - " );
-        // console.log(this.state.draggingCard);
         this.swapCards(this.state.draggingCard,card)
 
-        // let dest = event.target;
-        //console.log(event.target); 
       }
       swapCards = (source, target, callback) => {
           console.log("swapCards")
-            
-            console.log(source)
-            console.log(target)
-            let sIndex = source;
-            let tIndex = target;
-            let t = this.getCardFromIndex(tIndex)
-            let s = this.getCardFromIndex(sIndex)
+
+            let t = this.getCardFromIndex(target)
+            let s = this.getCardFromIndex(source)
 
             let temp = {};
-            // this.copyCard(t,temp);
-            // this.copyCard(s,t);
-            // this.copyCard(temp,s);
             console.log(s)
             console.log(t)
             //debugger;
-            if(sIndex.charAt(0) === "H"){
-                // let newCardInfo = JSON.parse(JSON.stringify(this.state.handCardInfo));
-                // this.copyCard(t,newCardInfo[parseInt(sIndex.charAt(1))]);
-                const newHand = this.state.handCardInfo.map((item)=>{
-                    if(item == s){
-                        // item.id = t.id;
-                        // item.src = t.src;
-                        // return item;
-                        return JSON.parse(JSON.stringify(t));
-                    }
-                    else{
-                        return item;
-                    }
-                });
-                // debugger;
-                this.setState({handCardInfo:newHand}, () => (console.log(this.state)));
-                // debugger;
-                // source.setState({...newCardInfo[parseInt(sIndex.charAt(1))]})
-            }
-            else{
-                let newCardInfo = JSON.parse(JSON.stringify(this.state.myCardInfo));
-                this.copyCard(t,newCardInfo[parseInt(sIndex.charAt(1))]);
-                this.setState({
-                    myCardInfo:newCardInfo
-                });
-                // source.setState({...newCardInfo[parseInt(sIndex.charAt(1))]})
 
-            }
-            if(tIndex.charAt(0) === "H"){
-                let newCardInfo = JSON.parse(JSON.stringify(this.state.handCardInfo));
-                this.copyCard(s,newCardInfo[parseInt(tIndex.charAt(1))]);
-                this.setState({
-                    handCardInfo:newCardInfo
-                })
-                // target.setState({...newCardInfo[parseInt(tIndex.charAt(1))]})
-            }
-            else{
-                let newCardInfo = JSON.parse(JSON.stringify(this.state.myCardInfo));
-                this.copyCard(s,newCardInfo[parseInt(tIndex.charAt(1))]);
-                this.setState({
-                    myCardInfo:newCardInfo
-                });
-                // target.setState({...newCardInfo[parseInt(tIndex.charAt(1))]})
-            }
-
-            
-            // t.id = s.id;
-            // t.src = s.src;
-
-
+            this.copySrcToDest(source,target,s,t,this.copyDestToSrc);
       }
-      copyCard = (source, target) =>{
-          target.id = source.id;
-        //   target.name = source.name;
-        //   target.character= source.character;
-        //   target.description= source.description;
-        //   target.color= source.color;
-        //   target.points= source.points;
-        //   target.nullified= source.nullified;
-        //   target.owner= source.owner;
-        //   target.bonusPoints= source.bonusPoints;
-          target.src = source.src;
+      copySrcToDest = (source,target,s,t,callback) =>{
+        if(source.charAt(0) === "H"){
+            const newHand = this.state.handCardInfo.map((item)=>{
+                if(item == s){
+                    return JSON.parse(JSON.stringify(t));
+                }
+                else{
+                    return item;
+                }
+            });
+            // debugger;
+            this.setState({handCardInfo:newHand}, () => (callback(target,s,t)));
+            // debugger;
+        }
+        else{
+            const newCardInfo = this.state.myCardInfo.map((item)=>{
+                if(item == s){
+                    return JSON.parse(JSON.stringify(t));
+                }
+                else{
+                    return item;
+                }
+            });
+            this.setState({
+                myCardInfo:newCardInfo
+            });
+            this.setState({myCardInfo:newCardInfo}, () => (callback(target,s,t)));
+        }
+      }
+      copyDestToSrc = (target,s,t) =>{
+        if(target.charAt(0) === "H"){
+            const newHand = this.state.handCardInfo.map((item)=>{
+                if(item == t){
+                    return JSON.parse(JSON.stringify(s));
+                }
+                else{
+                    return item;
+                }
+            });
+            // debugger;
+            this.setState({handCardInfo:newHand}, () => console.log(this.handCardInfo));
+            // debugger;
+        }
+        else{
+            const newCardInfo = this.state.myCardInfo.map((item)=>{
+                if(item == t){
+                    return JSON.parse(JSON.stringify(s));
+                }
+                else{
+                    return item;
+                }
+            });
+            this.setState({myCardInfo:newCardInfo},() => console.log(this.handCardInfo));
+        }
       }
 
       onDragOver = (event,card) => {
-        //console.log(card)
         event.preventDefault();
-        //this.setState({dropCard:card});
       }
 
       getCardFromIndex = (index) =>{
@@ -216,7 +199,7 @@ class Game extends React.Component{
                 break;
             case 2:
                 display = 
-                <>
+                <div style={this.state.gameSizeStyle}>
                     <Board 
                         onMouseEnter = {this.onMouseEnter} onDragStart ={this.onDragStart} onDragEnd = {this.onDragEnd}
                         myCardInfo = {this.state.myCardInfo} oppCardInfo = {this.state.oppCardInfo} onDrop = {this.onDrop}
@@ -230,7 +213,7 @@ class Game extends React.Component{
                         onMouseEnter = {this.onMouseEnter} onDragStart ={this.onDragStart} onDragEnd = {this.onDragEnd}
                         handCardInfo = {this.state.handCardInfo} onDrop = {this.onDrop} onDragOver = {this.onDragOver}
                     />
-                </>
+                </div>
 
         }
         

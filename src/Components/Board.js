@@ -9,14 +9,14 @@ class Board extends React.Component{
     }
     render(){
 
-            const offsetLeftStyle = {
-                position: 'relative',
-                left: 63
-            }
-            const offsetGapStyle = {
-                position: 'relative',
-                top: 75
-            }
+        const offsetLeftStyle = {
+            position: 'relative',
+            left: 63
+        }
+        const offsetGapStyle = {
+            position: 'relative',
+            top: 75
+        }
 
         return(
 
