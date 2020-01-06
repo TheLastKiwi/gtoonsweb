@@ -1,12 +1,13 @@
 import React from 'react'
 
+
 class Card extends React.Component{
 
     constructor(props){
         console.log("Card constructor")
         super(props)
         this.state = {
-            isDragging:false
+            dragging:false
         }
         // this.state = {
         //     id: this.props.cardInfo.id,
@@ -36,26 +37,19 @@ class Card extends React.Component{
 
     render (){
         return(
-            <div >
-                <img style={this.cardStyle} 
-                 src = {this.state.isDragging?"data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==":this.props.cardInfo.src}
-                 onMouseEnter = {()=>(this.props.onMouseEnter(this.props.cardInfo))} 
-                 onDragStart = {this.dragStart}//{()=>(this.props.onDragStart(this.props.index))}
-                 onDragEnd = {this.dragEnd}//{()=>(this.props.onDragEnd(this.props.cardInfo))} 
-                 onDrop = {(event)=>this.props.onDrop(event,this.props.index)}
-                 onDragOver = {(event)=>this.props.onDragOver(event,this.props.index)}
-                 draggable={this.props.cardInfo.id === -1?false:this.props.draggable}
-                 onMouseMove = {(event) => this.mouseMove(event)}
-                 ></img>
+            <div
+            onMouseEnter = {()=>(this.props.onMouseEnter(this.props.cardInfo))} 
+            onDragStart = {this.dragStart}//{()=>(this.props.onDragStart(this.props.index))}
+            onDragEnd = {this.dragEnd}//{()=>(this.props.onDragEnd(this.props.cardInfo))} 
+            onDrop = {(event)=>this.props.onDrop(event,this.props.index)}
+            onDragOver = {(event)=>this.props.onDragOver(event,this.props.index)}
+            >
+            <img style={this.cardStyle} 
+                src = {"./resources/"}// + this.props.cardInfo.cardId}
+                draggable={this.props.cardInfo.id === -1?false:this.props.draggable}
+            />
             </div>
         )
-    }
-    mouseMove = (event) =>{
-        //if(!this.state.dragging) return;
-        let xAbs = event.screenX;
-        let yAbs = event.screenY
-        console.log("Loc: " + xAbs + " " + yAbs);
-        //this.setState({cardStyle:{...this.cardStyle,top:,left:,position:"absolute"}})
     }
     dragStart = () =>{
         this.props.onDragStart(this.props.index)

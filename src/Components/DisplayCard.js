@@ -10,7 +10,7 @@ class DisplayCard extends React.Component{
     render (){
         return(
             <div>
-                <img src = {this.props.hoveredCard.src}></img><br/>
+                <img src = {this.props.hoveredCard.src} draggable={false}></img><br/>
                 Name: {this.props.hoveredCard.name}<br/>
                 Color: {this.props.hoveredCard.color}<br/>
                 Power: {this.props.hoveredCard.description}

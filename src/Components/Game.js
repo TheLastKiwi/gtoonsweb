@@ -1,13 +1,13 @@
 import React from 'react';
 import DisplayCard from "./DisplayCard"
 import Hand from "./Hand"
-import axios from 'axios';
 import Board from './Board';
 class Game extends React.Component{
 
     constructor(props){
         super(props)
         this.state={
+            playerNumber: this.props.playerNumber,
             hoveredCard: {
                 name: "OrangeName",
                 description: "BlueDesc",
@@ -47,9 +47,14 @@ class Game extends React.Component{
                 width: "1125px", 
                 height: "825px",
                 border: "1px solid #aaaaaa"
-            }
-        }
+            },
+            timePassed: 0,
 
+            buffs:[],
+            buffsApplied:0,
+            socketMessage:""
+
+        }
          /*
             Need a timer for:
             1- show random card to move on to next screen -10 seconds
@@ -59,24 +64,83 @@ class Game extends React.Component{
             5- to delay showing the final results? - 5 seconds
          */
     }
-    setTimerInterval = () => {
-        this.setState({
-            time: Date.now() - this.state.start
-        })
+
+    componentDidMount(){
+        console.log("Game Mounted");
+        const socket = new WebSocket("ws://localhost:8888/gameAction");
+        socket.onmessage = (e) => {
+            const socketMessage = e.data;
+            this.setState({socketMessage})
+            console.log("user: " + socketMessage);
+         };
+         const action = {};
+         action.action = "MATCHMAKE";
+         action.token = localStorage.getItem('jwt');
+         socket.onopen = (e) => {
+            socket.send(JSON.stringify(action));
+         }
+         this.setState({socket})
+    } 
+
+    startTimer = (onExpiryCall) => {
+        this.state.timer = setInterval(onExpiryCall, 1000);
     }
 
-    startTimer() {
-        this.setState({
-          isOn: true,
-          time: this.state.time,
-          start: Date.now() - this.state.time
-        })
-        this.timer = setInterval(this.setTimerInterval(), 1);
-      }
-      stopTimer() {
-        this.setState({isOn: false})
-        clearInterval(this.timer)
-      }
+    stopTimer = () => {
+        clearInterval(this.state.timer);
+        this.state.timePassed = 0;
+    }
+
+    showColorPicking = () => {
+        if(this.state.timePassed == 10){
+            this.stopTimer();
+            this.startTimer(this.submitFirstFourCards);
+        }
+    }
+    submitFirstFourCards = () => {
+        if(this.state.timePassed == 45){
+            //socket submit cards, get
+            this.stopTimer();
+            this.startTimer(this.revCards(0,3,this.submitSecondThreeCards));
+        }
+    }
+    revCards = (start,end, callback) => {
+        let playerOneBoard = this.playerNumber == 1?this.state.myCardInfo:this.state.oppCardInfo;
+        let playerTwoBoard = this.playerNumber == 2?this.state.oppCardInfo:this.state.myCardInfo;
+        
+        for(let index  = start; index <= end; index++){
+            //Get buffs from API
+            this.reveal(playerOneBoard[index]);
+            this.processBuffs(this.reveal(playerTwoBoard[index]));
+        }
+        callback();
+    }
+    processBuffs = () => {
+        for(let index = 0; index < this.state.buffs.length; index++){
+            this.animateBuff(this.state.buffs[index]);
+        }
+        setTimeout({},500)
+    }
+    animateBuff = (buff) => {
+
+    }
+    submitSecondThreeCards = () => {
+        if(this.state.timePassed == 45){
+            this.stopTimer();
+            this.startTimer(this.revCards(4,5,this.submitReplaceLastCard));
+        }
+    }
+    submitReplaceLastCard = () => {
+        if(this.state.timePassed == 20){
+            this.stopTimer();
+            this.startTimer(this.revCards(6,6,this.showResults));
+        }
+    }
+    showResults = () => {
+        if(this.state.timePassed == 5){
+            alert("")
+        }
+    }
 
 
     onMouseEnter = (card) => {
@@ -91,7 +155,7 @@ class Game extends React.Component{
         console.log("dragStart")
         this.setState({draggingCard:card})
         //this.state.draggingCard = card.index;
-        if(card.description == null) return;
+        //if(card.description == null) return;
         
       };
       onDragEnd = (card) => {

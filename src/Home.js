@@ -1,7 +1,15 @@
 import React from 'react';
 import Game from './Components/Game'
+import Login from './Components/Login'
+import Register from './Components/Register';
+import EditDeck from './Components/EditDeck'
+import {BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
-class App extends React.Component {
+class Home extends React.Component {
   constructor(props){
     super(props)
     console.log("App constructor");
@@ -20,13 +28,55 @@ class App extends React.Component {
     
   render(){
     console.log("app render");
+
     //Maybe out here control phase since matchmaking is only based on a response from the websocket and color choosing is timer based
     //There's no user input to check
     //Pass websocket to game so it can then monitor the socket for incomming data
+
+    let show;
+    let myJwt = localStorage.getItem("jwt");
+    console.log("My jwt=" + myJwt);
+
+    // (Login/Register)/Logout
+
+    // Edit Deck
+    // Play Game
+    let logout = () =>{
+       localStorage.removeItem("jwt");
+       window.location.replace("/");
+    }
+    let login_register_links = !myJwt?
+    <>
+      <Link to = "/login">Login</Link>
+      <br/>
+      <Link to = "/register">Register</Link>
+    </>:<>
+    <Link to = "/edit">Edit deck</Link>
+    <br/>
+      <Link to = "/play">PLAY!</Link>
+    <button onClick= {logout}>Log out</button>
+    </>
     return (
-      <Game />
+    <Router>
+
+      {login_register_links}
+      <Switch>
+        <Route path = "/edit">
+          <EditDeck/>
+        </Route>
+        <Route path = "/play">
+          <Game/>
+        </Route>
+        <Route path = "/login">
+          <Login/>
+        </Route>
+        <Route path = "/register">
+          <Register/>
+        </Route>
+      </Switch>
+    </Router>
     )
   };
 }
 
-export default App;
+export default Home;
