@@ -6,6 +6,7 @@ class Card extends React.Component{
     constructor(props){
         console.log("Card constructor")
         super(props)
+        console.log(props.cardInfo)
         this.state = {
             dragging:false
         }
@@ -36,6 +37,7 @@ class Card extends React.Component{
     }
 
     render (){
+        let src = this.props.cardInfo.id==-1?"./images/a.png":"./images/"+this.props.cardInfo.name+".png";
         return(
             <div
             onMouseEnter = {()=>(this.props.onMouseEnter(this.props.cardInfo))} 
@@ -45,7 +47,7 @@ class Card extends React.Component{
             onDragOver = {(event)=>this.props.onDragOver(event,this.props.index)}
             >
             <img style={this.cardStyle} 
-                src = {"./resources/"}// + this.props.cardInfo.cardId}
+                src = {src}// + this.props.cardInfo.cardId}
                 draggable={this.props.cardInfo.id === -1?false:this.props.draggable}
             />
             </div>

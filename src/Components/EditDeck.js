@@ -7,32 +7,37 @@ class EditDeck extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            deck:[],
-            collection:[]
+            deck:[{id:-1, name:"default"}],
+            collection:[{id:-1, name:"default"}]
         }
     }
     componentDidMount(){
 
         Axios.get("http://localhost:8888/api/getDeck")
         .then(response => {
-            this.setState({deck:JSON.parse(response.data.message)});
+            console.log("getDeckData")
             console.log(JSON.parse(response.data.message));
+            this.setState({deck:JSON.parse(response.data.message)});
+            
         })
         .catch(error => {
             
         });
         Axios.get("http://localhost:8888/api/getCollection")
         .then(response => {
-            this.setState({collection:JSON.parse(response.data.message)});
+            console.log("getCollData");
             console.log(JSON.parse(response.data.message));
+            this.setState({collection:JSON.parse(response.data.message)});
+            
         })
         .catch(error => {
 
         });
     }
     generateCollectionList = () =>{
-        let rowSize = 3;
+        let rowSize = 10;
         let resp = [];
+        console.log("collLen")
         console.log(this.state.collection.length)
         //collections is a list of full cards
         for(let i = 0; i < this.state.collection.length; i+=rowSize){
@@ -51,7 +56,6 @@ class EditDeck extends React.Component{
                     onDragEnd  = { this.onDragEnd }
                     onDrop = { this.onDrop }
                     onDragOver  = { this.onDragOver }
-                    cardInfo = {this.state.deck[i]}
                 />)
             if(theRow.length == rowSize){
                 break;
@@ -60,9 +64,6 @@ class EditDeck extends React.Component{
         return theRow;
     }
     getCardsForDeck = () =>{
-        const props = {
-
-        }
         let deck = [];
         if(this.state.deck.length === 12){
             for(let i = 0; i < 12; i+=3){
