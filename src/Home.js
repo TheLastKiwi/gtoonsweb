@@ -3,6 +3,7 @@ import Game from './Components/Game'
 import Login from './Components/Login'
 import Register from './Components/Register';
 import EditDeck from './Components/EditDeck'
+import BuyPack from './Components/BuyPack'
 import {BrowserRouter as Router,
   Switch,
   Route,
@@ -55,6 +56,8 @@ class Home extends React.Component {
     <br/>
       <Link to = "/play">PLAY!</Link>
     <button onClick= {logout}>Log out</button>
+    <br/>
+    <Link to = "/buy">Buy Pack</Link>
     </>
     return (
     <Router>
@@ -72,6 +75,9 @@ class Home extends React.Component {
         </Route>
         <Route path = "/register">
           <Register/>
+        </Route>
+        <Route path = "/buy">
+          <BuyPack/>
         </Route>
       </Switch>
     </Router>
