@@ -5,8 +5,13 @@ import Card from './Card';
 class Deck extends React.Component{
 
     constructor(props){
-        
-        super(props)
+        super(props);
+        this.state= {
+            deck:[]
+        }
+    }
+    componentDidMount() {
+        this.setState({deck:this.getCardsForDeck()});
     }
     getCardsForDeck = () =>{
         let deck = [];
@@ -16,26 +21,26 @@ class Deck extends React.Component{
                 deck.push(
                 <Row>
                     <Card 
-                        onMouseEnter = { this.onMouseEnter }
-                        onDragStart = {this.onDragStart }
-                        onDragEnd  = { this.onDragEnd }
-                        onDrop = { this.onDrop }
-                        onDragOver  = { this.onDragOver }
+                        onMouseEnter = { this.props.onMouseEnter }
+                        onDragStart = {this.props.onDragStart }
+                        onDragEnd  = { this.props.onDragEnd }
+                        onDrop = { this.props.onDrop }
+                        onDragOver  = { this.props.onDragOver }
                         cardInfo = {this.props.cards[i]}
                     />
                     <Card 
-                        onMouseEnter = { this.onMouseEnter }
-                        onDragStart = {this.onDragStart }
-                        onDragEnd  = { this.onDragEnd }
-                        onDrop = { this.onDrop }
-                        onDragOver  = { this.onDragOver }
+                        onMouseEnter = { this.props.onMouseEnter }
+                        onDragStart = {this.props.onDragStart }
+                        onDragEnd  = { this.props.onDragEnd }
+                        onDrop = { this.props.onDrop }
+                        onDragOver  = { this.props.onDragOver }
                         cardInfo = {this.props.cards[i+1]}/>
                     <Card 
-                        onMouseEnter = { this.onMouseEnter }
-                        onDragStart = {this.onDragStart }
-                        onDragEnd  = { this.onDragEnd }
-                        onDrop = { this.onDrop }
-                        onDragOver  = { this.onDragOver }
+                        onMouseEnter = { this.props.onMouseEnter }
+                        onDragStart = {this.props.onDragStart }
+                        onDragEnd  = { this.props.onDragEnd }
+                        onDrop = { this.props.onDrop }
+                        onDragOver  = { this.props.onDragOver }
                         cardInfo = {this.props.cards[i+2]}/>
                 </Row>);
             }
@@ -72,7 +77,7 @@ class Deck extends React.Component{
     render(){
         return(
             <>
-                {this.getCardsForDeck()}
+                {this.state.deck}
             </>
         )
     }

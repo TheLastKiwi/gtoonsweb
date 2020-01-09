@@ -9,10 +9,8 @@ class Collection extends React.Component{
         super(props)
     }
     generateCollectionList = () =>{
-        let rowSize = 10;
+        let rowSize = 8;
         let resp = [];
-        console.log("collLen")
-        console.log(this.props.cards.length)
         //collections is a list of full cards
         for(let i = 0; i < this.props.cards.length; i+=rowSize){
             resp.push(<Row>{this.getCardsForCollectionRow(i,rowSize)}</Row>);
@@ -25,11 +23,11 @@ class Collection extends React.Component{
             theRow.push(
                 <Card 
                     cardInfo = {this.props.cards[i]}
-                    onMouseEnter = { this.onMouseEnter }
-                    onDragStart = {this.onDragStart }
-                    onDragEnd  = { this.onDragEnd }
-                    onDrop = { this.onDrop }
-                    onDragOver  = { this.onDragOver }
+                    onMouseEnter = { this.props.onMouseEnter }
+                    onDragStart = {this.props.onDragStart }
+                    onDragEnd  = { this.props.onDragEnd }
+                    onDrop = { this.props.onDrop }
+                    onDragOver  = { this.props.onDragOver }
                 />)
             if(theRow.length == rowSize){
                 break;

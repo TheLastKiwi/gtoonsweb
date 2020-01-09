@@ -7,16 +7,15 @@ class DisplayCard extends React.Component{
     
     render (){
         let cardStyle = {
-            float: "left", 
             width: "150px", 
             height: "275px",
             border: "1px solid #aaaaaa"
         }
-
+        cardStyle= { ...cardStyle, ...this.props.style}
         return(
             
             <div style = {cardStyle}>
-                <img src = {this.props.hoveredCard.name!=null?"./images/" + this.props.hoveredCard.name + ".png":null} draggable={false}/><br/>
+                <img src = {("./images/") + (this.props.hoveredCard.name!=null?this.props.hoveredCard.name:"Default") + ".png"} draggable={false}/><br/>
                 Name: {this.props.hoveredCard.name}<br/>
                 Color: {this.props.hoveredCard.color}<br/>
                 Rarity:{this.props.hoveredCard.rarity}<br/>

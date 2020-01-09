@@ -49,10 +49,6 @@ class BuyPack extends React.Component{
         return retCard;
     }
     
-    onDragStart = (card) => {};
-    onDragEnd = (card) => {}
-    onDrop = (event, card)=> {}
-    onDragOver = (event,card) => {}
     render(){
         let divPack = [];
         this.state.pack.forEach((obj) =>{
