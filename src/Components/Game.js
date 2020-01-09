@@ -161,11 +161,6 @@ class Game extends React.Component{
       onDragEnd = (card) => {
         // if(card.description == null) return;
         console.log("cardDragEnd")
-        // axios.post("localhost:8888/register","").then(function(response){
-        //   if(response.status === 200){
-        //     console.log(response.data);
-        //   }
-        // })
         this.setState({draggingCard:null});
       }
       onDrop = (event, card)=> {
@@ -178,7 +173,6 @@ class Game extends React.Component{
             let t = this.getCardFromIndex(target)
             let s = this.getCardFromIndex(source)
 
-            let temp = {};
             console.log(s)
             console.log(t)
             //debugger;
