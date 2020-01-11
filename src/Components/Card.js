@@ -6,7 +6,7 @@ class Card extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            dragging:false
+            dragging:false,
         }
 
         //id: this.props.cardInfo.id,
@@ -22,7 +22,7 @@ class Card extends React.Component{
         // nullified: this.props.cardInfo.nullified, //if nullified by another card of same name or character of lower value
         // owner: this.props.cardInfo.owner, //boolean if you own it
         // bonusPoints: this.props.cardInfo.bonusPoints,
-        
+
         this.cardStyle = {
             float: "left", 
             width: "125px", 
@@ -31,29 +31,35 @@ class Card extends React.Component{
             backgroundImage: "url(https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png)" //default
         }
     }
-
     render (){
-        let src = this.props.cardInfo.id==-1?"./images/a.png":"./images/"+this.props.cardInfo.name+".png";
+        let src = this.props.cardInfo.id==-1?"./images/Default.png":"./images/"+this.props.cardInfo.name+".png";
         return(
-            <div
-            onMouseEnter = {this.props.onMouseEnter!=null?()=>(this.props.onMouseEnter(this.props.cardInfo)):()=>{}} 
-            onDragStart = {this.dragStart}//{()=>(this.props.onDragStart(this.props.index))}
-            onDragEnd = {this.dragEnd}//{()=>(this.props.onDragEnd(this.props.cardInfo))} 
-            onDrop = {this.props.onDrop!=null?(event)=>this.props.onDrop(event,this.props.index):()=>{}}
-            onDragOver = {this.props.onDragOver!=null?(event)=>this.props.onDragOver(event,this.props.index):()=>{}}
-            >
+            <div>
             <img style={this.cardStyle} 
                 src = {src}// + this.props.cardInfo.cardId}
-                draggable={this.props.cardInfo.id === -1?false:this.props.draggable}
+                draggable = {this.props.cardInfo.id === -1?false:this.props.draggable}
+                onMouseEnter = {this.props.onMouseEnter!=null?()=>(this.props.onMouseEnter(this.addIndexToCardInfo())):()=>{console.log("enterwasempty")}} 
+                onDragStart = {this.dragStart}//{()=>(this.props.onDragStart(this.props.index))}
+                onDragEnd = {this.dragEnd}//{()=>(this.props.onDragEnd(this.props.cardInfo))} 
+                onDrop = {this.props.onDrop!=null?(event)=>this.props.onDrop(event,this.props.index):()=>{console.log("dropwasempty")}}
+                onDragOver = {this.props.onDragOver!=null?(event)=>this.props.onDragOver(event,this.props.index):()=>{console.log("dragoverwasemtpy")}}
+                onContextMenu = {this.onRightClick}
             />
             </div>
         )
     }
+    addIndexToCardInfo = () =>{
+        const card = this.props.cardInfo;
+        card.index = this.props.index;
+        return card;
+    }
     dragStart = () =>{
+
+        this.setState({dragging:true});
         if(this.props.onDragStart!=null){
             this.props.onDragStart(this.props.index);
         }
-        this.setState({dragging:true});
+        
     }
     dragEnd = () =>{
         this.setState({dragging:false});
@@ -61,7 +67,11 @@ class Card extends React.Component{
             this.props.onDragEnd(this.props.cardInfo);
         }
     }
-    
-
+    onRightClick = (e) =>{
+        e.preventDefault();
+        if(this.props.onRightclick != null){
+            this.props.onRightclick();
+        }
+    }
 }
 export default Card;

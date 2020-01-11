@@ -5,9 +5,9 @@ import Card from './Card';
 class Collection extends React.Component{
 
     constructor(props){
-        
         super(props)
     }
+
     generateCollectionList = () =>{
         let rowSize = 8;
         let resp = [];
@@ -28,7 +28,9 @@ class Collection extends React.Component{
                     onDragEnd  = { this.props.onDragEnd }
                     onDrop = { this.props.onDrop }
                     onDragOver  = { this.props.onDragOver }
-                />)
+                    index = {"C"+i.toString()}
+                />
+            )
             if(theRow.length == rowSize){
                 break;
             }

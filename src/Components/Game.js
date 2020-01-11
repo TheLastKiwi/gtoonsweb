@@ -202,9 +202,6 @@ class Game extends React.Component{
                     return item;
                 }
             });
-            this.setState({
-                myCardInfo:newCardInfo
-            });
             this.setState({myCardInfo:newCardInfo}, () => (callback(target,s,t)));
         }
       }
