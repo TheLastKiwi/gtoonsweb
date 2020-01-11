@@ -11,10 +11,10 @@ class DisplayCard extends React.Component{
             height: "275px",
             border: "1px solid #aaaaaa"
         }
-        cardStyle= { ...cardStyle, ...this.props.style}
+
         return(
             
-            <div style = {cardStyle}>
+            <div style = {{...cardStyle, ...this.props.style}}>
                 <img src = {("./images/") + (this.props.hoveredCard.name!=null?this.props.hoveredCard.name:"Default") + ".png"} draggable={false}/><br/>
                 Name: {this.props.hoveredCard.name}<br/>
                 Color: {this.props.hoveredCard.color}<br/>

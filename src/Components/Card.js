@@ -32,13 +32,13 @@ class Card extends React.Component{
         }
     }
     render (){
-        let src = this.props.cardInfo.id==-1?"./images/Default.png":"./images/"+this.props.cardInfo.name+".png";
+        let src = this.props.cardInfo.id===-1?"./images/Default.png":"./images/"+this.props.cardInfo.name+".png";
         return(
             <div>
             <img style={this.cardStyle} 
                 src = {src}// + this.props.cardInfo.cardId}
                 draggable = {this.props.cardInfo.id === -1?false:this.props.draggable}
-                onMouseEnter = {this.props.onMouseEnter!=null?()=>(this.props.onMouseEnter(this.addIndexToCardInfo())):()=>{console.log("enterwasempty")}} 
+                onMouseEnter = {this.props.onMouseEnter!==null?()=>(this.props.onMouseEnter(this.addIndexToCardInfo())):()=>{console.log("enterwasempty")}} 
                 onDragStart = {this.dragStart}//{()=>(this.props.onDragStart(this.props.index))}
                 onDragEnd = {this.dragEnd}//{()=>(this.props.onDragEnd(this.props.cardInfo))} 
                 onDrop = {this.props.onDrop!=null?(event)=>this.props.onDrop(event,this.props.index):()=>{console.log("dropwasempty")}}

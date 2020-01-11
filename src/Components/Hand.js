@@ -11,7 +11,7 @@ class Hand extends React.Component{
         }
         return(
         <>
-            <Column style = {handStyle}>
+            <Column style = {{...handStyle, ...this.props.style}}>
                 <Row>
                     <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.props.onDragEnd} cardInfo = {this.props.handCardInfo[0]}
                      onDrop = {this.props.onDrop} onDragOver = {this.props.onDragOver} index={"H0"}/>

@@ -7,6 +7,7 @@ class Game extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            
             playerNumber: this.props.playerNumber,
             hoveredCard: {
                 name: "OrangeName",
@@ -17,30 +18,30 @@ class Game extends React.Component{
             },
             phase: 2,
             handCardInfo:[
-                {id:1,src:"https://static1.milkcapmania.co.uk/Img/Other/Spirou/75DPI/01-Spirou.png"},
-                {id:2,src:"https://static1.milkcapmania.co.uk/Img/Caps/Dragonball%20Z/75DPI/17.png"},
-                {id:3,src:"https://static1.milkcapmania.co.uk/Img/Caps/Dragonball%20Z/75DPI/57.png"},
-                {id:4,src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/24.png"},
-                {id:5,src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/25.png"},
-                {id:6,src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/26.png"}
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
             ],
             myCardInfo:[
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/33.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/33.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/33.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/33.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/33.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/33.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/33.png"}
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
             ],
             oppCardInfo:[
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"},
-                {id:-1, src:"https://static1.milkcapmania.co.uk/Img/pogs/Scandinavian%20Games%20A.S/Series%201/75DPI/34.png"}
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""},
             ],
             draggingCard: null,
             gameSizeStyle : {
@@ -53,7 +54,6 @@ class Game extends React.Component{
             buffs:[],
             buffsApplied:0,
             socketMessage:""
-
         }
          /*
             Need a timer for:
@@ -260,11 +260,11 @@ class Game extends React.Component{
                         myCardInfo = {this.state.myCardInfo} oppCardInfo = {this.state.oppCardInfo} onDrop = {this.onDrop}
                         onDragOver = {this.onDragOver}
                     />
-                    <DisplayCard 
+                    <DisplayCard style = {{position:"fixed", right:this.state.gameSizeStyle.right}}
                         onMouseEnter = {this.onMouseEnter} onDragStart ={this.onDragStart} onDragEnd = {this.onDragEnd}
                         hoveredCard={this.state.hoveredCard} onDrop = {this.onDrop} onDragOver = {this.onDragOver}
                     />
-                    <Hand 
+                    <Hand style={{position:"fixed",right:0}}
                         onMouseEnter = {this.onMouseEnter} onDragStart ={this.onDragStart} onDragEnd = {this.onDragEnd}
                         handCardInfo = {this.state.handCardInfo} onDrop = {this.onDrop} onDragOver = {this.onDragOver}
                     />

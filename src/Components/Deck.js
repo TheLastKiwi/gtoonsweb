@@ -6,7 +6,7 @@ class Deck extends React.Component{
 
     getCardsForDeck = () =>{
         let deck = [];
-        const template = {id:-1};
+        const template = {id:-1, name:"", desription:"",rarity:"",color:""};
         let row = [];
         for(let i = 0; i < 12; i++){
             //generate template cards

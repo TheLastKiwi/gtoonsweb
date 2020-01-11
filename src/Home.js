@@ -34,7 +34,6 @@ class Home extends React.Component {
     //There's no user input to check
     //Pass websocket to game so it can then monitor the socket for incomming data
 
-    let show;
     let myJwt = localStorage.getItem("jwt");
     console.log("My jwt=" + myJwt);
 
