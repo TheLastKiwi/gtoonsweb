@@ -29,19 +29,34 @@ class Board extends React.Component{
 
             */
 
-            <>
+            <div style = {{...this.props.style}}>
                 <Row style = {offsetLeftStyle}>
-                    <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[0]}onDragOver = {this.onDragOver} />
-                    <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[1]}onDragOver = {this.onDragOver}/>
-                    <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[2]}onDragOver = {this.onDragOver}/>
-                </Row>
-                <Row>
-                    <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[3]}onDragOver = {this.onDragOver}/>
                     <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[4]}onDragOver = {this.onDragOver}/>
                     <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[5]}onDragOver = {this.onDragOver}/>
                     <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[6]}onDragOver = {this.onDragOver}/>
                 </Row>
-                <button>No</button><button>Ready</button><button>Yes</button>
+                <Row>
+                    <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[0]}onDragOver = {this.onDragOver}/>
+                    <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[1]}onDragOver = {this.onDragOver}/>
+                    <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[2]}onDragOver = {this.onDragOver}/>
+                    <Card draggable="false" onMouseEnter = {this.props.onMouseEnter} cardInfo = {this.props.oppCardInfo[3]}onDragOver = {this.onDragOver}/>
+                </Row>
+                
+                {this.props.lastCard?(<button style={{position:"relative", left:"10%"}} onClick = {this.props.onNoClick}>No</button>):null} 
+                {
+                //if
+                this.props.ready?
+                    //then
+                    <div style={{position:"relative", left:"16.5%"}} >Waiting for opponent...</div>:
+                    //else
+                        //if
+                        (this.props.lastcard?
+                            //then
+                            (<button style={{position:"relative", left:"15%"}} onClick = {this.props.onReadyClick}>Ready</button>):
+                            //else    
+                                <button style={{position:"relative", left:"20%"}} onClick = {this.props.onReadyClick}>Ready</button>)}
+                {this.props.lastCard?(<button style={{position:"relative", left:"20%"}} onClick = {this.props.onYesClick}>Yes</button>):null}
+                
                 <Row>
                     <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.props.onDragEnd} cardInfo = {this.props.myCardInfo[0]} 
                     onDrop = {this.props.onDrop} onDragOver = {this.props.onDragOver} index={"B0"}/>
@@ -60,7 +75,7 @@ class Board extends React.Component{
                     <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.props.onDragEnd} cardInfo = {this.props.myCardInfo[6]} 
                     onDrop = {this.props.onDrop} onDragOver = {this.props.onDragOver} index={"B6"}/>
                 </Row>
-            </>
+            </div>
         )
     }
 }

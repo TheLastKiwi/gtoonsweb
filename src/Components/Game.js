@@ -2,6 +2,7 @@ import React from 'react';
 import DisplayCard from "./DisplayCard"
 import Hand from "./Hand"
 import Board from './Board';
+import Discard from './Discard'
 class Game extends React.Component{
 
     constructor(props){
@@ -10,13 +11,13 @@ class Game extends React.Component{
             
             playerNumber: this.props.playerNumber,
             hoveredCard: {
-                name: "OrangeName",
-                description: "BlueDesc",
-                attributes: "MaleAttr",
-                color: "RedColor",
-                src:"https://static1.milkcapmania.co.uk/Img/pogs/Series1/75DPI/01.png"
+                name: null,
+                description: "",
+                attributes: "",
+                color: ""
             },
-            phase: 2,
+            loadingPhase: 2,
+            gamePhase:0,
             handCardInfo:[
                 {id:-1,name:"",description:"",rarity:"",color:""},
                 {id:-1,name:"",description:"",rarity:"",color:""},
@@ -53,7 +54,13 @@ class Game extends React.Component{
 
             buffs:[],
             buffsApplied:0,
-            socketMessage:""
+            socket:null,
+            socketMessage:"",
+            isLastCard: false,
+            replace: false,
+            ready:false,
+            discardedCards:[{id:-1,name:"",description:"",rarity:"",color:""},
+                {id:-1,name:"",description:"",rarity:"",color:""}]
         }
          /*
             Need a timer for:
@@ -69,9 +76,8 @@ class Game extends React.Component{
         console.log("Game Mounted");
         const socket = new WebSocket("ws://localhost:8888/gameAction");
         socket.onmessage = (e) => {
-            const socketMessage = e.data;
-            this.setState({socketMessage})
-            console.log("user: " + socketMessage);
+            const socketMessage = JSON.parse(e.data);
+            this.socketResponse(socketMessage);
          };
          const action = {};
          action.action = "MATCHMAKE";
@@ -81,6 +87,60 @@ class Game extends React.Component{
          }
          this.setState({socket})
     } 
+
+    socketResponse = (message) =>{
+        console.log(message);
+        let oppCards = null;
+        let newOppCards = null;
+        console.log(this.state.gamePhase)
+        switch(this.state.gamePhase){
+            case 0:
+                //get initial hand
+                this.setState({handCardInfo:message.cards,gamePhase:message.nextPhase, ready:false})
+                break;
+            case 1:
+                //get first 4 opp cards
+                oppCards = message.cards;
+                newOppCards = this.state.oppCardInfo.map((card,index)=>{
+                    if(index<oppCards.length){
+                        return oppCards[index];
+                    }
+                    return card;
+                });
+                this.setState({oppCardInfo:newOppCards, gamePhase:message.nextPhase, ready:false});
+                break;
+            case 2:
+                //gets new hand
+                this.setState({handCardInfo:message.cards, gamePhase:message.nextPhase, ready:false});
+                break;
+            case 3:
+                //get 2 of opp last cards
+                oppCards = message.cards;
+                newOppCards = this.state.oppCardInfo.map((card,index)=>{
+                    if(index>3 && index <6){
+                        return oppCards[index-4];
+                    }
+                    return card;
+                });
+                this.setState({oppCardInfo:newOppCards, gamePhase:message.nextPhase, ready:false, isLastCard:true});
+                break;
+            case 4:
+                //last card
+                let lastCard = message.lastCard;
+                newOppCards = this.state.oppCardInfo.map((card,index) =>{
+                    if(index == 6){
+                        return lastCard;
+                    }
+                    return card;
+                });
+                this.setState({oppCardInfo:newOppCards, gamePhase:message.nextPhase, ready:false});
+                break;
+            case 4:
+                
+                break;
+            
+        }
+    }
 
     startTimer = (onExpiryCall) => {
         this.state.timer = setInterval(onExpiryCall, 1000);
@@ -147,8 +207,8 @@ class Game extends React.Component{
         //console.log(card);
         if(card.id === -1) return;
         //if(card.description == null) return;
-        this.setState({hoveredCard: {src: card.src, color: "blue", description:"gets big", name:"skullguy"}})
-        console.log("mouseEnter: " + this.state.hoveredCard + " - " + card.src)
+        this.setState({hoveredCard: card})
+        console.log("mouseEnter: " + card.index)
     };
     
       onDragStart = (card) => {
@@ -193,7 +253,7 @@ class Game extends React.Component{
             this.setState({handCardInfo:newHand}, () => (callback(target,s,t)));
             // debugger;
         }
-        else{
+        else if(source.charAt(0) === "B"){
             const newCardInfo = this.state.myCardInfo.map((item)=>{
                 if(item == s){
                     return JSON.parse(JSON.stringify(t));
@@ -203,6 +263,17 @@ class Game extends React.Component{
                 }
             });
             this.setState({myCardInfo:newCardInfo}, () => (callback(target,s,t)));
+        }
+        else{
+            const newCardInfo = this.state.discardedCards.map((item)=>{
+                if(item == s){
+                    return JSON.parse(JSON.stringify(t));
+                }
+                else{
+                    return item;
+                }
+            });
+            this.setState({discardedCards:newCardInfo}, () => (callback(target,s,t)));
         }
       }
       copyDestToSrc = (target,s,t) =>{
@@ -216,10 +287,10 @@ class Game extends React.Component{
                 }
             });
             // debugger;
-            this.setState({handCardInfo:newHand}, () => console.log(this.handCardInfo));
+            this.setState({handCardInfo:newHand}, () => console.log(this.state.handCardInfo));
             // debugger;
         }
-        else{
+        else if(target.charAt(0) === "B"){
             const newCardInfo = this.state.myCardInfo.map((item)=>{
                 if(item == t){
                     return JSON.parse(JSON.stringify(s));
@@ -228,9 +299,21 @@ class Game extends React.Component{
                     return item;
                 }
             });
-            this.setState({myCardInfo:newCardInfo},() => console.log(this.handCardInfo));
+            this.setState({myCardInfo:newCardInfo},() => console.log(this.state.myCardInfo));
+        }
+        else{
+            const newCardInfo = this.state.discardedCards.map((item)=>{
+                if(item == t){
+                    return JSON.parse(JSON.stringify(s));
+                }
+                else{
+                    return item;
+                }
+            });
+            this.setState({discardedCards:newCardInfo},() => console.log(this.state.discardedCards));
         }
       }
+
 
       onDragOver = (event,card) => {
         event.preventDefault();
@@ -238,33 +321,93 @@ class Game extends React.Component{
 
       getCardFromIndex = (index) =>{
           if(index.charAt(0) === "H"){
-            return this.state.handCardInfo[parseInt(index.charAt(1))]
+            return this.state.handCardInfo[parseInt(index.substring(1))]
           }
-          return this.state.myCardInfo[parseInt(index.charAt(1))]
+          else if(index.charAt(0) === "B"){
+            return this.state.myCardInfo[parseInt(index.substring(1))]
+          }
+          else{
+              return this.state.discardedCards[parseInt(index.substring(1))]
+          }
       }
-      render(){
-        let phase = this.state.phase
-        let display = null;
-        switch(phase){
-            case 0:
-                console.log("phase 0")//matchmaking
-                break;
+
+      onYesClick = () =>{
+
+      }
+      onNoClick = () =>{
+          
+      }
+      onReadyClick = () =>{
+          console.log("CurrentPhase: " + this.state.gamePhase)
+        let message;
+        if(!this.state.ready){
+            this.setState({ready:true})
+        }
+        let playedCards = [];
+        switch(this.state.gamePhase){
             case 1:
-                console.log("phase 1")//PickColor
+                for(let i = 0; i < 4; i++){
+                    playedCards.push(this.state.myCardInfo[i].id)
+                }
+                message = {action:"GAME", playedCards:playedCards};
+                console.log(message);
+                this.state.socket.send(JSON.stringify(message));
                 break;
             case 2:
+                let discardedCards = [];
+                for(let i = 0; i < this.state.discardedCards.length; i++){
+                    discardedCards.push(this.state.discardedCards[i].id)
+                }
+                message = {action:"GAME", discardedCards:discardedCards};
+                console.log(message);
+                this.state.socket.send(JSON.stringify(message));
+                break;
+            case 3:
+                for(let i = 4; i < 6; i++){
+                    playedCards.push(this.state.myCardInfo[i].id)
+                }
+                message = {action:"GAME", playedCards:playedCards};
+                console.log(message);
+                this.state.socket.send(JSON.stringify(message));
+                break;
+            case 4:
+                let lastCard = this.state.myCardInfo[6].id;
+                message = {action:"GAME", lastCard:lastCard, replace:this.state.replace};
+                console.log(message);
+                this.state.socket.send(JSON.stringify(message));
+                break;                                                                        
+        }
+      }
+      render(){
+        let loadingPhase = this.state.loadingPhase
+        let display = null;
+        console.log("loadingPhase =" + loadingPhase)
+        switch(loadingPhase){
+            case 0:
+                console.log("loadingPhase 0")//matchmaking
+                break;
+            case 1:
+                console.log("loadingPhase 1")//PickColor
+                break;
+            case 2:
+                console.log(this.state.gamePhase)
                 display = 
                 <div style={this.state.gameSizeStyle}>
                     <Board 
                         onMouseEnter = {this.onMouseEnter} onDragStart ={this.onDragStart} onDragEnd = {this.onDragEnd}
                         myCardInfo = {this.state.myCardInfo} oppCardInfo = {this.state.oppCardInfo} onDrop = {this.onDrop}
-                        onDragOver = {this.onDragOver}
+                        onDragOver = {this.onDragOver} onYesClick = {this.onYesClick} onNoClick = {this.onNoClick} onReadyClick = {this.onReadyClick}
+                        lastCard = {this.state.isLastCard} style = {{position:"relative", left:"25%"}} ready = {this.state.ready}
                     />
-                    <DisplayCard style = {{position:"fixed", right:this.state.gameSizeStyle.right}}
+                    <DisplayCard style = {{position:"absolute", left:983, top:65}}
                         onMouseEnter = {this.onMouseEnter} onDragStart ={this.onDragStart} onDragEnd = {this.onDragEnd}
                         hoveredCard={this.state.hoveredCard} onDrop = {this.onDrop} onDragOver = {this.onDragOver}
                     />
-                    <Hand style={{position:"fixed",right:0}}
+                    {this.state.gamePhase===2?<Discard style = {{position:"absolute",left:500, top:761}} onMouseEnter = {this.onMouseEnter} onDragStart ={this.onDragStart} onDragEnd = {this.onDragEnd}
+                        cardInfo = {this.state.discardedCards} onDrop = {this.onDrop}
+                        onDragOver = {this.onDragOver}
+                    />:null}
+                    <Hand style={{position:"absolute",left:881, top:511}}
                         onMouseEnter = {this.onMouseEnter} onDragStart ={this.onDragStart} onDragEnd = {this.onDragEnd}
                         handCardInfo = {this.state.handCardInfo} onDrop = {this.onDrop} onDragOver = {this.onDragOver}
                     />

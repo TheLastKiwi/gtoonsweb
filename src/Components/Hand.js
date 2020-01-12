@@ -4,14 +4,10 @@ import { Column, Row } from 'simple-flexbox';
 class Hand extends React.Component{
 
     render(){
-        const handStyle = { //Absolute position of hand for now maybe later make it everything relative for smaller or larger screens
-            position: 'absolute', //Also find out what flexGrow{1} is
-            top : 550,
-            left: 200
-        }
+
         return(
         <>
-            <Column style = {{...handStyle, ...this.props.style}}>
+            <Column style = {{...this.props.style}}>
                 <Row>
                     <Card onMouseEnter = {this.props.onMouseEnter} onDragStart = {this.props.onDragStart} onDragEnd = {this.props.onDragEnd} cardInfo = {this.props.handCardInfo[0]}
                      onDrop = {this.props.onDrop} onDragOver = {this.props.onDragOver} index={"H0"}/>
