@@ -29,14 +29,27 @@ class EditDeck extends React.Component{
                     
                 })
                 .catch(error => {
-        
+                    this.setState({collection:[]})
                 })
             
             );
             
         })
         .catch(error => {
-            
+            //no deck in database
+            let defaultDeck = [];
+            for(let i = 0; i < 12; i++)defaultDeck.push(this.state.defaultCard)
+            console.log("No Deck")
+            Axios.get("http://localhost:8888/api/getCollection")
+            .then(response => {
+                let coll = JSON.parse(response.data.message);
+
+                this.setState({collection: coll, deck:defaultDeck});
+                
+            })
+            .catch(error => {
+    
+            })
         });
 
     }
@@ -241,7 +254,9 @@ class EditDeck extends React.Component{
         return false;
     } 
     getCardFromIndex = (index) =>{
-        const dataSource = index.charAt(0) === 'C'?this.state.collection:this.state.deck;
+        console.log(index)
+        const dataSource = index.charAt(0) == 'C'?this.state.collection:this.state.deck;
+        console.log(dataSource)
         const card  = dataSource[parseInt(index.substring(1))];
         card.index = index;
         return card;
